@@ -2,6 +2,8 @@
 
 require 'sinatra'
 
+disable :protection
+
 get '/' do
   'It works!'
 end
