@@ -5,10 +5,12 @@ require 'sinatra'
 disable :protection
 
 get '/' do
+  puts 'getting /'
   'It works!'
 end
 
 post '/temperature' do
+  puts 'new temperature: '
   puts params[:target]
   puts params[:channel]
   puts params[:value]
