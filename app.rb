@@ -6,19 +6,11 @@ require 'tempodb'
 disable :protection
 
 get '/' do
-  # setup the Tempo client
-  api_key = ENV['TEMPODB_API_KEY']
-  api_secret = ENV['TEMPODB_API_SECRET']
-  api_host = ENV['TEMPODB_API_HOST']
-  api_port = Integer(ENV['TEMPODB_API_PORT'])
-  api_secure = ENV['TEMPODB_API_SECURE'] == "False" ? false : true
-
   'It works!'
 end
 
 post '/temperature' do
   @temperature = params[:value]
-  puts 'new temperature: ' + @temperature
 
   # setup the Tempo client
   api_key = ENV['TEMPODB_API_KEY']
@@ -28,7 +20,6 @@ post '/temperature' do
   api_secure = ENV['TEMPODB_API_SECURE'] == "False" ? false : true
 
   client = TempoDB::Client.new( api_key, api_secret, api_host, api_port, api_secure )
-  data = [ TempoDB::DataPoint.new( Time.now, @temperature ) ]
+  data = [ TempoDB::DataPoint.new( Time.now, @temperature.to_f ) ]
   client.write_key( "carter.temp", data )
-
 end
