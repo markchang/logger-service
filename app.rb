@@ -17,7 +17,6 @@ end
 
 post '/temperature' do
   @temperature = params[:value]
-  @@last_temp = @temperature
 
   # setup the Tempo client
   api_key = ENV['TEMPODB_API_KEY']
@@ -29,4 +28,6 @@ post '/temperature' do
   client = TempoDB::Client.new( api_key, api_secret, api_host, api_port, api_secure )
   data = [ TempoDB::DataPoint.new( Time.now, @temperature.to_f ) ]
   client.write_key( "carter.temp", data )
+
+  @@last_temp = @temperature.to_f
 end
